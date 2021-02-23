@@ -1,0 +1,66 @@
+INT32 Ti936_935_Init(void)
+{
+	UINT8 data[1]={0};
+    Ti936_935_RegWrite(TI936SlaveID, 0x4c, 0x01); // FPD3_PORT_SEL
+
+	Ti936_935_RegRead(TI936SlaveID,0x4C,data);
+
+	PrintColor(RED,"%s %d 0x4c==%d",__func__,__LINE__,data[0]);
+
+    Ti936_935_RegWrite(TI936SlaveID, 0x0c, 0x81); // FPD3_PORT_SEL
+
+	Ti936_935_RegRead(TI936SlaveID,0x0C,data);
+
+	PrintColor(RED,"%s %d 0x0c==%d",__func__,__LINE__,data[0]);
+
+    Ti936_935_RegWrite(TI936SlaveID, 0x33, 0x03); // CSI_CTL
+
+    TaskSleep(500);
+
+    Ti936_935_RegWrite(TI936SlaveID, 0x20, 0x20); // FWD_CTL1
+
+    TaskSleep(500);
+
+    Ti936_935_RegWrite(TI936SlaveID, 0x58, 0x5a); // BCC_CONFIG
+
+    TaskSleep(5);
+
+    /*Ti936_935_RegWrite(TI936SlaveID, 0x19, 0x41); // FS_HIGH_TIME_1
+
+    TaskSleep(500);
+
+    Ti936_935_RegWrite(TI936SlaveID, 0x1a, 0x19); // FS_HIGH_TIME_0
+
+    TaskSleep(500);
+
+    Ti936_935_RegWrite(TI936SlaveID, 0x1b, 0x41); // FS_LOW_TIME_1
+
+    TaskSleep(500);
+
+    Ti936_935_RegWrite(TI936SlaveID, 0x1c, 0x1A); // FS_LOW_TIME_0
+
+    TaskSleep(500);
+    */
+    
+    Ti936_935_RegWrite(TI936SlaveID, 0x5c, 0x30); // SER ALIAS_ID
+    Ti936_935_RegWrite(TI936SlaveID, 0x5d, SensorSlaveID); // CIS Slave ID
+    Ti936_935_RegWrite(TI936SlaveID, 0x65, SensorSlaveID); // CIS Slave Alias
+
+    return OK;
+}
+
+    Ti936_935_RegWrite(0x30, 0x02, 0x33); //4-lane
+    Ti936_935_RegWrite(0x30, 0x06, 0x46); //clk_out
+    Ti936_935_RegWrite(0x30, 0x07, 0x7d); 
+
+    Ti936_935_RegWrite(0x30, 0x0e, 0xc3);
+    Ti936_935_RegWrite(0x30, 0x0d, 0x00);
+
+    TaskSleep(20);
+
+    Ti936_935_RegWrite(0x30, 0x0d, 0x04);  //pwdn set high
+
+    TaskSleep(3);
+
+    Ti936_935_RegWrite(0x30, 0x0d, 0x0c);  //rst high
+    TaskSleep(300);
